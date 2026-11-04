@@ -322,3 +322,17 @@ html.force-mobile .nav { left: 50%; right: auto; width: min(100%, 430px); transf
 .mode-switch button[aria-pressed='true'] { background: var(--surface-1); color: var(--brand); font-weight: 600; box-shadow: 0 1px 3px rgb(0 0 0 / .12); }
 html.is-mobile .mode-switch button { min-width: 36px; min-height: 36px; padding: 0 8px; justify-content: center; }
 html.is-mobile .mode-switch__label { display: none; }
+
+/* ---------- โหมด Web บนจอแคบ (มือถือ): จัดหน้ากว้าง 1280px แล้วย่อให้พอดีจอ ----------
+   ค่า --web-scale และ --web-h ตั้งโดย src/utils/layout.ts */
+/* transform ไม่ย่อพื้นที่ layout → กำหนดความสูง body เท่าขนาดหลังย่อ และตัดส่วนกว้างเกินทางขวา */
+html.web-scaled #root {
+  height: calc(var(--web-h) * var(--web-scale));
+  overflow: hidden;   /* หน้าเลื่อนได้เฉพาะเมื่อสูงเกินจอจริง (เช่นมือถือแนวนอน) */
+}
+html.web-scaled .app {
+  width: 1280px;
+  height: var(--web-h);
+  transform: scale(var(--web-scale));
+  transform-origin: 0 0;
+}

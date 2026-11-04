@@ -42,8 +42,8 @@ export function ProvinceMap({ highlights }: Props) {
     const el = boxRef.current
     if (!el) return
     // วัดขนาดทันทีตอนแสดงครั้งแรก (ไม่ต้องรอ ResizeObserver ซึ่งบางเบราว์เซอร์มือถือเรียกช้า)
-    const first = el.getBoundingClientRect()
-    setSize({ w: Math.floor(first.width), h: Math.floor(first.height) })
+    // ใช้ clientWidth/Height (ขนาดจริงก่อนย่อ) ไม่ใช่ getBoundingClientRect (ขนาดหลังย่อในโหมด Web บนมือถือ)
+    setSize({ w: el.clientWidth, h: el.clientHeight })
     const ro = new ResizeObserver(([e]) => {
       const { width, height } = e.contentRect
       setSize({ w: Math.floor(width), h: Math.floor(height) })
@@ -78,8 +78,10 @@ export function ProvinceMap({ highlights }: Props) {
           {sorted.map((p) => {
             const types = highlights.get(p.name)
             const show = (e: PointerEvent) => {
-              const r = boxRef.current!.getBoundingClientRect()
-              setHover({ name: p.name, types: types ?? [], x: e.clientX - r.left, y: e.clientY - r.top })
+              const el = boxRef.current!
+              const r = el.getBoundingClientRect()
+              const k = el.clientWidth / (r.width || 1) // แปลงพิกัดจอ → พิกัดในกล่อง (กรณีหน้าถูกย่อ)
+              setHover({ name: p.name, types: types ?? [], x: (e.clientX - r.left) * k, y: (e.clientY - r.top) * k })
             }
             return (
               <path
