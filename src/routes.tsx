@@ -3,7 +3,6 @@ import { OverviewPage } from '@/pages/OverviewPage'
 import { DisastersPage } from '@/pages/DisastersPage'
 import { UsagePage } from '@/pages/UsagePage'
 import { PendingPage } from '@/pages/PendingPage'
-import { IssuesPage } from '@/pages/IssuesPage'
 
 export interface AppRoute {
   path: string
@@ -16,6 +15,4 @@ export const routes: AppRoute[] = [
   { path: '/', label: 'ภาพรวม', element: <OverviewPage /> },
   { path: '/disasters', label: 'แจ้งภัย / ขอความช่วยเหลือ', element: <DisastersPage /> },
   { path: '/usage', label: 'การเข้าใช้งาน', element: <UsagePage /> },
-  { path: '/pending', label: 'คำร้องรอพิจารณา', element: <PendingPage /> },
-  { path: '/issues', label: 'ปัญหาการใช้งาน', element: <IssuesPage /> },
-]
+  { path: '/pending', label: 'คำร้องรอพิจารณา', element: <PendingPage /> },]

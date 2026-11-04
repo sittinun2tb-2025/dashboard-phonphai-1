@@ -31,10 +31,10 @@ dashboard-phonphai-1/
    ├─ data/reports/*.json     ข้อมูลรายงานแต่ละเดือน
    ├─ services/reportService.ts  ชั้นดึงข้อมูล (เปลี่ยนเป็น API ได้ที่นี่ที่เดียว)
    ├─ components/
-   │  ├─ layout/              Sidebar, Header, AppLayout, ReportContext
+   │  ├─ layout/              Header (แถบบน + เมนู), AppLayout, ReportContext
    │  ├─ ui/                  Card, StatCard, DataTable
    │  └─ charts/              HBarChart
-   ├─ pages/                  ภาพรวม / แจ้งภัย / การเข้าใช้งาน / คำร้องรอพิจารณา / ปัญหาการใช้งาน
+   ├─ pages/                  ภาพรวม / แจ้งภัย / การเข้าใช้งาน / คำร้องรอพิจารณา
    ├─ utils/format.ts         จัดรูปแบบตัวเลข/วันที่ภาษาไทย
    └─ styles/global.css       design tokens (สี, light/dark) + layout
 ```
@@ -47,4 +47,3 @@ dashboard-phonphai-1/
 | `/disasters` | แจ้งภัย / ขอความช่วยเหลือ แยกตามประเภทภัย | 1 |
 | `/usage` | การเข้าใช้งานของประชาชนและหน่วยงาน | 2 |
 | `/pending` | คำร้องรอพิจารณา แยกหน่วยงาน/จังหวัด | 3 |
-| `/issues` | ปัญหาการใช้งานและแนวทางแก้ไข | 4 |
