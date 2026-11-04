@@ -1,0 +1,214 @@
+{
+  "id": "2569-10",
+  "title": "รายงานสรุปการใช้งานแอปพลิเคชัน “พ้นภัย”",
+  "periodLabel": "ตุลาคม 2569",
+  "asOf": "2026-11-04",
+  "disasters": {
+    "totalRequests": 73,
+    "provinceCount": 10,
+    "note": "จำนวนประชาชนที่ไม่ได้รับความช่วยเหลือ 1864 ครัวเรือน คิดเป็น 87.51 %เนื่องจาก มีการช่วยเหลือจากทางพื้นที่ไปบางส่วนแล้ว และบางพื้นที่เจ้าหน้าที่ระดับจังหวัดในพื้นที่รับผิดชอบได้ดำเนินการคัดกรองพิจารณาให้ความช่วยเหลือตามความเหมาะสม",
+    "rows": [
+      {
+        "type": "แผ่นดินไหวและอาคารถล่ม",
+        "reports": 1,
+        "helpRequests": 0,
+        "assisted": 0,
+        "affectedHouseholds": 0,
+        "assistedHouseholds": 0,
+        "provinces": [
+          "กรุงเทพมหานคร"
+        ]
+      },
+      {
+        "type": "ภัยหนาว",
+        "reports": 0,
+        "helpRequests": 2,
+        "assisted": 0,
+        "affectedHouseholds": 460,
+        "assistedHouseholds": 0,
+        "provinces": [
+          "อุบลราชธานี"
+        ]
+      },
+      {
+        "type": "วาตภัย",
+        "reports": 0,
+        "helpRequests": 1,
+        "assisted": 0,
+        "affectedHouseholds": 5,
+        "assistedHouseholds": 0,
+        "provinces": [
+          "ศรีสะเกษ"
+        ]
+      },
+      {
+        "type": "อัคคีภัย",
+        "reports": 0,
+        "helpRequests": 7,
+        "assisted": 7,
+        "affectedHouseholds": 38,
+        "assistedHouseholds": 38,
+        "provinces": [
+          "กรุงเทพมหานคร",
+          "เพชรบุรี",
+          "อุบลราชธานี"
+        ]
+      },
+      {
+        "type": "อื่น ๆ",
+        "reports": 2,
+        "helpRequests": 29,
+        "assisted": 0,
+        "affectedHouseholds": 59,
+        "assistedHouseholds": 0,
+        "provinces": [
+          "นครราชสีมา",
+          "สงขลา"
+        ]
+      },
+      {
+        "type": "อุทกภัย",
+        "reports": 4,
+        "helpRequests": 34,
+        "assisted": 3,
+        "affectedHouseholds": 2130,
+        "assistedHouseholds": 266,
+        "provinces": [
+          "กรุงเทพมหานคร",
+          "กาฬสินธุ์",
+          "ชุมพร",
+          "ประจวบคีรีขันธ์",
+          "เพชรบุรี",
+          "สงขลา",
+          "สตูล"
+        ]
+      }
+    ]
+  },
+  "usage": {
+    "citizenLogins": 1235,
+    "citizenChannels": [
+      "Line",
+      "Facebook",
+      "ThaiD"
+    ],
+    "agencyUsers": 2854,
+    "agencyProvinceCount": 75,
+    "statsPeriod": "28-4 พฤศจิกายน 2569",
+    "byAgency": [
+      {
+        "agency": "อาสาสมัคร",
+        "registered": 1082597,
+        "active": 2597
+      },
+      {
+        "agency": "ผญบ./กำนัน",
+        "registered": 109234,
+        "active": 169
+      },
+      {
+        "agency": "อปท.",
+        "registered": 8331,
+        "active": 47
+      },
+      {
+        "agency": "อำเภอ",
+        "registered": 1174,
+        "active": 22
+      },
+      {
+        "agency": "ปภ.จังหวัด",
+        "registered": 402,
+        "active": 5
+      },
+      {
+        "agency": "เหล่ากาชาดจังหวัด",
+        "registered": 316,
+        "active": 15
+      }
+    ]
+  },
+  "pending": {
+    "total": 69,
+    "provinceCount": 9,
+    "byAgency": [
+      {
+        "agency": "ผู้ใหญ่บ้าน",
+        "awaitingScreening": 0,
+        "inProgress": 0,
+        "areas": []
+      },
+      {
+        "agency": "อปท.",
+        "awaitingScreening": 0,
+        "inProgress": 0,
+        "areas": []
+      },
+      {
+        "agency": "อำเภอ",
+        "awaitingScreening": 63,
+        "inProgress": 0,
+        "areas": [
+          {
+            "province": "นครราชสีมา",
+            "count": 1
+          },
+          {
+            "province": "ประจวบคีรีขันธ์",
+            "count": 1
+          },
+          {
+            "province": "ศรีสะเกษ",
+            "count": 1
+          },
+          {
+            "province": "สงขลา",
+            "count": 30
+          },
+          {
+            "province": "สตูล",
+            "count": 1
+          },
+          {
+            "province": "กรุงเทพมหานคร",
+            "count": 6
+          },
+          {
+            "province": "อุบลราชธานี",
+            "count": 2
+          },
+          {
+            "province": "ชุมพร",
+            "count": 21
+          }
+        ]
+      },
+      {
+        "agency": "ปภ.จังหวัด",
+        "awaitingScreening": 0,
+        "inProgress": 6,
+        "areas": [
+          {
+            "province": "อุบลราชธานี",
+            "count": 2
+          },
+          {
+            "province": "เพชรบุรี",
+            "count": 2
+          },
+          {
+            "province": "กรุงเทพมหานคร",
+            "count": 2
+          }
+        ]
+      },
+      {
+        "agency": "เหล่ากาชาดจังหวัด",
+        "awaitingScreening": 0,
+        "inProgress": 0,
+        "areas": []
+      }
+    ]
+  },
+  "issues": []
+}
