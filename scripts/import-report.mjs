@@ -45,20 +45,30 @@ const asOf = asOfMatch
 // ---------- ส่วนที่ 1: ประเภทภัย ----------
 const s11 = String(rows[findRow(/^1\.1/)][0])
 const h1 = findRow(/^ประเภทภัย/)
+/** แปลงแถวตารางประเภทภัย (ใช้ทั้งแถวข้อมูลและแถว "รวม") — ค่าทุกตัวอ่านจากไฟล์ตรง ๆ ไม่คำนวณเอง */
+const parseDisasterRow = (r) => {
+  const [reports, helpRequests] = splitPair(r[1])
+  const hh = String(r[4]).match(/(\d+)\s*ครัวเรือน\s*\(([\d.]+%)\)/)
+  return {
+    type: r[0], reports, helpRequests, assisted: num(r[2]),
+    affectedHouseholds: num(r[3]),
+    assistedHouseholds: hh ? Number(hh[1]) : 0,
+    assistedPercent: hh ? hh[2] : '-',
+    provinces: provincesOf(r[5]),
+  }
+}
 const disasterRows = []
 let note = ''
+let disasterTotal
 for (let i = h1 + 1; i < rows.length; i++) {
   const r = rows[i]
   if (/^หมายเหตุ/.test(r[0])) { note = String(r[0]).replace(/^หมายเหตุ\s*:\s*/, ''); continue }
-  if (/^รวม/.test(r[0])) break
-  const [reports, helpRequests] = splitPair(r[1])
-  const assistedHh = String(r[4]).match(/(\d+)\s*ครัวเรือน/)
-  disasterRows.push({
-    type: r[0], reports, helpRequests, assisted: num(r[2]),
-    affectedHouseholds: num(r[3]),
-    assistedHouseholds: assistedHh ? Number(assistedHh[1]) : 0,
-    provinces: provincesOf(r[5]),
-  })
+  if (/^รวม/.test(r[0])) {
+    const { provinces, ...t } = parseDisasterRow(r)
+    disasterTotal = { ...t, provinceLabel: String(r[5]) }
+    break
+  }
+  disasterRows.push(parseDisasterRow(r))
 }
 
 // ---------- ส่วนที่ 2: การเข้าใช้งาน ----------
@@ -75,6 +85,9 @@ for (let i = h2 + 1; i < rows.length && !/^3\./.test(rows[i][0]); i++) {
 const s31 = String(rows[findRow(/^3\.1/)][0])
 const h3 = findRow(/^หน่วยงาน/, h2 + 1)
 const pendingRows = []
+const pendingTotalRow = rows.slice(h3 + 1).find((r) => /^รวม/.test(r[0]))
+const [pAwait, pProg] = splitPair(pendingTotalRow[1])
+const pendingTotal = { awaitingScreening: pAwait, inProgress: pProg, areaLabel: String(pendingTotalRow[2]) }
 for (let i = h3 + 1; i < rows.length && !/^รวม/.test(rows[i][0]); i++) {
   const [awaitingScreening, inProgress] = splitPair(rows[i][1])
   const areas = [...String(rows[i][2]).matchAll(/(?:จ\.)?([^\s()]+)\s*\((\d+)\)/g)]
@@ -100,6 +113,7 @@ const report = {
     provinceCount: num(s11.match(/(\d+)\s*จังหวัด/)?.[1]),
     note,
     rows: disasterRows,
+    total: disasterTotal,
   },
   usage: {
     citizenLogins: num(s21.match(/รวม\s*([\d,]+)/)?.[1]),
@@ -113,6 +127,7 @@ const report = {
     total: num(s31.match(/รวม\s*(\d+)/)?.[1]),
     provinceCount: num(s31.match(/(\d+)\s*จังหวัด/)?.[1]),
     byAgency: pendingRows,
+    totalRow: pendingTotal,
   },
   issues,
 }

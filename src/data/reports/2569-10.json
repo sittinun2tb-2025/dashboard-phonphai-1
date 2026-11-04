@@ -15,6 +15,7 @@
         "assisted": 0,
         "affectedHouseholds": 0,
         "assistedHouseholds": 0,
+        "assistedPercent": "0.00%",
         "provinces": [
           "กรุงเทพมหานคร"
         ]
@@ -26,6 +27,7 @@
         "assisted": 0,
         "affectedHouseholds": 460,
         "assistedHouseholds": 0,
+        "assistedPercent": "0.00%",
         "provinces": [
           "อุบลราชธานี"
         ]
@@ -37,6 +39,7 @@
         "assisted": 0,
         "affectedHouseholds": 5,
         "assistedHouseholds": 0,
+        "assistedPercent": "0.00%",
         "provinces": [
           "ศรีสะเกษ"
         ]
@@ -48,6 +51,7 @@
         "assisted": 7,
         "affectedHouseholds": 38,
         "assistedHouseholds": 38,
+        "assistedPercent": "100.0%",
         "provinces": [
           "กรุงเทพมหานคร",
           "เพชรบุรี",
@@ -61,6 +65,7 @@
         "assisted": 0,
         "affectedHouseholds": 59,
         "assistedHouseholds": 0,
+        "assistedPercent": "0.00%",
         "provinces": [
           "นครราชสีมา",
           "สงขลา"
@@ -73,6 +78,7 @@
         "assisted": 3,
         "affectedHouseholds": 2130,
         "assistedHouseholds": 266,
+        "assistedPercent": "12.49%",
         "provinces": [
           "กรุงเทพมหานคร",
           "กาฬสินธุ์",
@@ -83,7 +89,17 @@
           "สตูล"
         ]
       }
-    ]
+    ],
+    "total": {
+      "type": "รวม 6 ภัย",
+      "reports": 7,
+      "helpRequests": 73,
+      "assisted": 10,
+      "affectedHouseholds": 2692,
+      "assistedHouseholds": 304,
+      "assistedPercent": "11.29%",
+      "provinceLabel": "รวม 10 จังหวัด"
+    }
   },
   "usage": {
     "citizenLogins": 1235,
@@ -208,7 +224,12 @@
         "inProgress": 0,
         "areas": []
       }
-    ]
+    ],
+    "totalRow": {
+      "awaitingScreening": 63,
+      "inProgress": 6,
+      "areaLabel": "รวม 9 จังหวัด"
+    }
   },
   "issues": []
 }

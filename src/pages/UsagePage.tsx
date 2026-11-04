@@ -4,13 +4,12 @@ import { StatCard } from '@/components/ui/StatCard'
 import { DataTable, type Column } from '@/components/ui/DataTable'
 import { HBarChart } from '@/components/charts/HBarChart'
 import type { AgencyUsage } from '@/types/report'
-import { fmtNumber, fmtPercent } from '@/utils/format'
+import { fmtNumber } from '@/utils/format'
 
 const columns: Column<AgencyUsage>[] = [
   { key: 'agency', header: 'หน่วยงาน', render: (r) => r.agency },
   { key: 'reg', header: 'ผู้ใช้งานทั้งหมด', numeric: true, render: (r) => fmtNumber(r.registered) },
   { key: 'act', header: 'ผู้ใช้งานจริง', numeric: true, render: (r) => fmtNumber(r.active) },
-  { key: 'pct', header: 'สัดส่วนใช้งานจริง', numeric: true, render: (r) => fmtPercent(r.active, r.registered) },
 ]
 
 export function UsagePage() {

@@ -17,6 +17,8 @@ export interface DisasterSummary {
   provinceCount: number
   note: string
   rows: DisasterRow[]
+  /** แถว "รวม" ตามที่ระบุในไฟล์รายงาน */
+  total: Omit<DisasterRow, 'provinces'> & { provinceLabel: string }
 }
 
 export interface DisasterRow {
@@ -26,6 +28,7 @@ export interface DisasterRow {
   assisted: number // จำนวนคำร้องที่ช่วยเหลือ
   affectedHouseholds: number // ครัวเรือนได้รับผลกระทบ
   assistedHouseholds: number // ครัวเรือนได้รับการช่วยเหลือ
+  assistedPercent: string // % ตามที่ระบุในไฟล์ เช่น "12.49%"
   provinces: string[]
 }
 
@@ -50,6 +53,8 @@ export interface PendingSummary {
   total: number
   provinceCount: number
   byAgency: PendingRow[]
+  /** แถว "รวม" ตามที่ระบุในไฟล์รายงาน */
+  totalRow: { awaitingScreening: number; inProgress: number; areaLabel: string }
 }
 
 export interface PendingRow {
