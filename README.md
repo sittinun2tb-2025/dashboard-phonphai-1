@@ -29,11 +29,12 @@ dashboard-phonphai-1/
    ├─ routes.tsx              รายการหน้า/เมนู (เพิ่มหน้าใหม่ที่นี่)
    ├─ types/report.ts         โครงสร้างข้อมูลรายงาน
    ├─ data/reports/*.json     ข้อมูลรายงานแต่ละเดือน
+   ├─ data/geo/thailand-provinces.json  ขอบเขต 77 จังหวัด (ย่อขนาดแล้ว) สำหรับแผนที่
    ├─ services/reportService.ts  ชั้นดึงข้อมูล (เปลี่ยนเป็น API ได้ที่นี่ที่เดียว)
    ├─ components/
    │  ├─ layout/              Header (แถบบน + เมนู), AppLayout, ReportContext
    │  ├─ ui/                  Card, StatCard, DataTable
-   │  └─ charts/              HBarChart
+   │  └─ charts/              HBarChart, ProvinceMap (แผนที่จังหวัด)
    ├─ pages/                  ภาพรวม / แจ้งภัย / การเข้าใช้งาน / คำร้องรอพิจารณา
    ├─ utils/format.ts         จัดรูปแบบตัวเลข/วันที่ภาษาไทย
    └─ styles/global.css       design tokens (สี, light/dark) + layout
@@ -43,7 +44,14 @@ dashboard-phonphai-1/
 
 | เส้นทาง | หน้า | ข้อมูลจากรายงานส่วนที่ |
 |---|---|---|
-| `/` | ภาพรวม (KPI + กราฟผลกระทบ/ช่วยเหลือ) | 1–3 |
+| `/` | ภาพรวม (KPI + กราฟผลกระทบ/ช่วยเหลือ + แผนที่จังหวัดที่เกิดภัย) | 1–3 |
 | `/disasters` | แจ้งภัย / ขอความช่วยเหลือ แยกตามประเภทภัย | 1 |
 | `/usage` | การเข้าใช้งานของประชาชนและหน่วยงาน | 2 |
 | `/pending` | คำร้องรอพิจารณา แยกหน่วยงาน/จังหวัด | 3 |
+
+## แหล่งข้อมูลแผนที่
+
+ขอบเขตจังหวัด: กรมการปกครอง กระทรวงมหาดไทย ผ่าน
+[chingchai/OpenGISData-Thailand](https://github.com/chingchai/OpenGISData-Thailand)
+สัญญาอนุญาต [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+— ปรับปรุงโดยย่อความละเอียดเส้นขอบเขตด้วย mapshaper (10%) และเก็บเฉพาะฟิลด์ pro_code, pro_th, pro_en

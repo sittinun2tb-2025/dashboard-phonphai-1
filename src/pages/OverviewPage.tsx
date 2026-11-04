@@ -2,6 +2,7 @@ import { useReport } from '@/components/layout/ReportContext'
 import { Card } from '@/components/ui/Card'
 import { StatCard } from '@/components/ui/StatCard'
 import { HBarChart } from '@/components/charts/HBarChart'
+import { ProvinceMap } from '@/components/charts/ProvinceMap'
 import { fmtNumber } from '@/utils/format'
 
 /** ทุกตัวเลขในหน้านี้อ่านจากไฟล์รายงานโดยตรง ไม่มีการคำนวณเพิ่ม */
@@ -9,6 +10,11 @@ export function OverviewPage() {
   const { report } = useReport()
   const { disasters, usage, pending } = report
   const t = disasters.total
+
+  // จังหวัด → ประเภทภัย ตามคอลัมน์ "พื้นที่ได้รับผลกระทบ" ในไฟล์รายงาน
+  const affected = new Map<string, string[]>()
+  for (const row of disasters.rows)
+    for (const p of row.provinces) affected.set(p, [...(affected.get(p) ?? []), row.type])
 
   return (
     <div className="page page--overview">
@@ -31,6 +37,10 @@ export function OverviewPage() {
             { key: 'assistedHouseholds', label: 'ได้รับการช่วยเหลือ', color: 'var(--series-2)' },
           ]}
         />
+      </Card>
+
+      <Card title="แผนที่พื้นที่ได้รับผลกระทบ" description="จังหวัดที่เกิดภัยตามรายงาน · ชี้เพื่อดูประเภทภัย">
+        <ProvinceMap highlights={affected} />
       </Card>
 
       <Card title={`สรุป${report.periodLabel}`} description={report.title}>
