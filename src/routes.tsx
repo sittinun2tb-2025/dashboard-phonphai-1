@@ -14,5 +14,5 @@ export interface AppRoute {
 export const routes: AppRoute[] = [
   { path: '/', label: 'ภาพรวม', element: <OverviewPage /> },
   { path: '/disasters', label: 'แจ้งภัย', element: <DisastersPage /> },
-  { path: '/usage', label: 'การเข้าใช้งาน', element: <UsagePage /> },
-  { path: '/pending', label: 'คำร้องรอพิจารณา', element: <PendingPage /> },]
+  { path: '/usage', label: 'การใช้งาน', element: <UsagePage /> },
+  { path: '/pending', label: 'รอพิจารณา', element: <PendingPage /> },]

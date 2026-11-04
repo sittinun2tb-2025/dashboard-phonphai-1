@@ -35,7 +35,7 @@ dashboard-phonphai-1/
    │  ├─ layout/              Header (แถบบน + เมนู), AppLayout, ReportContext
    │  ├─ ui/                  Card, StatCard, DataTable
    │  └─ charts/              HBarChart, ProvinceMap (แผนที่จังหวัด)
-   ├─ pages/                  ภาพรวม / แจ้งภัย / การเข้าใช้งาน / คำร้องรอพิจารณา
+   ├─ pages/                  ภาพรวม / แจ้งภัย / การใช้งาน / รอพิจารณา
    ├─ utils/format.ts         จัดรูปแบบตัวเลข/วันที่ภาษาไทย
    └─ styles/global.css       design tokens (สี, light/dark) + layout
 ```
