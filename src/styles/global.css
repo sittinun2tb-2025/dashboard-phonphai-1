@@ -1,142 +1,173 @@
-/* ---------- Design tokens ---------- */
+/* =========================================================
+   Theme — โทนสีและตัวอักษรอ้างอิงจาก phonphai.org
+   (ฟอนต์ Pridi, แดง #e34940, ตัวอักษร #21272f, พื้น #f2f2f2)
+   ========================================================= */
 :root {
   color-scheme: light;
-  --bg: #f4f4f2;
-  --surface-1: #fcfcfb;
-  --surface-2: #f0efec;
-  --border: #e3e2de;
-  --text-primary: #0b0b0b;
-  --text-secondary: #52514e;
-  --text-muted: #7a7974;
-  --accent: #2a78d6;
-  --accent-soft: #e6f0fc;
-  --grid: #e8e7e3;
-  /* categorical chart slots (fixed order) */
-  --series-1: #2a78d6;
-  --series-2: #eb6834;
-  --series-3: #1baf7a;
-  --status-good: #008300;
+  --bg: #f2f2f2;
+  --bg-line: rgb(33 39 47 / 0.045);
+  --surface-1: #ffffff;
+  --surface-2: #f6f6f6;
+  --border: #e4e4e4;
+  --text-primary: #21272f;
+  --text-secondary: #4a525d;
+  --text-muted: #9b9b9b;
+  --brand: #e34940;
+  --brand-ink: #ffffff;
+  --brand-soft: #fdecea;
+  --grid: #ececec;
+  /* สีกราฟ (ตรวจ CVD แล้ว): แดงแบรนด์ + น้ำเงิน */
+  --series-1: #e34940;
+  --series-2: #2a78d6;
   --status-warning: #b77d00;
 
-  --radius: 12px;
-  --sidebar-w: 240px;
-  font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
+  --radius: 14px;
+  --gap: 12px;
+  --header-h: 60px;
+  font-family: 'Pridi', 'Sarabun', serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: #121211;
-    --surface-1: #1a1a19;
-    --surface-2: #242423;
-    --border: #2f2f2d;
-    --text-primary: #f0efec;
-    --text-secondary: #c3c2b7;
-    --text-muted: #8f8e86;
-    --accent: #3987e5;
-    --accent-soft: #1b2a3d;
-    --grid: #2b2b29;
-    --series-1: #3987e5;
-    --series-2: #d95926;
-    --series-3: #199e70;
+    --bg: #15181c;
+    --bg-line: rgb(255 255 255 / 0.03);
+    --surface-1: #1e2228;
+    --surface-2: #262b32;
+    --border: #2f353d;
+    --text-primary: #eef0f2;
+    --text-secondary: #c3c8ce;
+    --text-muted: #8a9099;
+    --brand: #e66767;
+    --brand-ink: #15181c;
+    --brand-soft: #3a2224;
+    --grid: #2c3239;
+    --series-1: #e66767;
+    --series-2: #3987e5;
   }
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #121211;
-  --surface-1: #1a1a19;
-  --surface-2: #242423;
-  --border: #2f2f2d;
-  --text-primary: #f0efec;
-  --text-secondary: #c3c2b7;
-  --text-muted: #8f8e86;
-  --accent: #3987e5;
-  --accent-soft: #1b2a3d;
-  --grid: #2b2b29;
-  --series-1: #3987e5;
-  --series-2: #d95926;
-  --series-3: #199e70;
+  --bg: #15181c;
+  --bg-line: rgb(255 255 255 / 0.03);
+  --surface-1: #1e2228;
+  --surface-2: #262b32;
+  --border: #2f353d;
+  --text-primary: #eef0f2;
+  --text-secondary: #c3c8ce;
+  --text-muted: #8a9099;
+  --brand: #e66767;
+  --brand-ink: #15181c;
+  --brand-soft: #3a2224;
+  --grid: #2c3239;
+  --series-1: #e66767;
+  --series-2: #3987e5;
 }
 
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
-
-/* ซ่อนแถบ scroll ด้านขวา (ยังเลื่อนหน้าด้วยล้อเมาส์/ทัชแพด/นิ้วได้ตามปกติ) */
-html { scrollbar-width: none; }               /* Firefox, Chrome 121+ */
-html::-webkit-scrollbar { display: none; }    /* Safari, Chrome รุ่นเก่า */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
 body {
   margin: 0;
-  background: var(--bg);
   color: var(--text-primary);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: var(--bg);
+  /* ลายเส้นเรขาคณิตบาง ๆ แบบพื้นหลัง phonphai.org */
+  background-image:
+    linear-gradient(60deg, var(--bg-line) 1px, transparent 1px),
+    linear-gradient(-60deg, var(--bg-line) 1px, transparent 1px);
+  background-size: 64px 110px;
 }
 h1, h2, h3 { margin: 0; font-weight: 600; }
 a { color: inherit; text-decoration: none; }
-
-/* ---------- Layout ---------- */
-.app { display: flex; min-height: 100vh; }
-.sidebar {
-  width: var(--sidebar-w);
-  flex-shrink: 0;
-  background: var(--surface-1);
-  border-right: 1px solid var(--border);
-  padding: 20px 12px;
-  position: sticky; top: 0; height: 100vh;
+select, button {
+  font: inherit; color: var(--text-primary); background: var(--surface-1);
+  border: 1px solid var(--border); border-radius: 999px; padding: 4px 14px; cursor: pointer;
 }
-.sidebar__brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 20px; font-weight: 700; }
-.sidebar__brand img { width: 28px; }
-.nav { display: flex; flex-direction: column; gap: 2px; }
+
+/* =========================================================
+   Layout — เต็มหน้าจอพอดี ไม่ต้อง scroll (จอ ≥ 1024px)
+   ========================================================= */
+.app {
+  height: 100vh; height: 100dvh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.header {
+  height: var(--header-h); flex-shrink: 0;
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 20px;
+  background: var(--surface-1);
+  border-bottom: 3px solid var(--brand);
+}
+.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.brand__mark { width: 30px; height: 30px; }
+.brand__name { font-weight: 700; color: var(--brand); font-size: 18px; line-height: 1.1; }
+.brand__sub { font-size: 11px; color: var(--text-muted); }
+
+.nav { display: flex; gap: 4px; flex: 1; min-width: 0; }
 .nav a {
-  padding: 9px 12px; border-radius: 8px; color: var(--text-secondary);
+  padding: 6px 14px; border-radius: 999px; color: var(--text-secondary); white-space: nowrap;
 }
 .nav a:hover { background: var(--surface-2); }
-.nav a.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.nav a.active { background: var(--brand); color: var(--brand-ink); }
 
-.main { flex: 1; min-width: 0; }
-.header {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-  padding: 16px 28px; border-bottom: 1px solid var(--border); background: var(--surface-1);
-}
-.header__title { font-size: 18px; }
-.header__sub { color: var(--text-muted); font-size: 13px; }
-.header__tools { display: flex; gap: 8px; align-items: center; }
-select, button {
-  font: inherit; color: var(--text-primary); background: var(--surface-2);
-  border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; cursor: pointer;
-}
-.content { padding: 24px 28px 48px; display: flex; flex-direction: column; gap: 20px; }
+.header__tools { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.header__asof { font-size: 12px; color: var(--text-muted); text-align: right; line-height: 1.3; }
+
+.content { flex: 1; min-height: 0; padding: var(--gap); }
+
+/* หน้าแต่ละหน้า = grid เต็มพื้นที่ */
+.page { height: 100%; display: grid; gap: var(--gap); min-height: 0; }
+.page > * { min-height: 0; min-width: 0; }
+.page--overview  { grid-template-rows: auto 1fr; grid-template-columns: 3fr 2fr; }
+.page--overview .kpis { grid-column: 1 / -1; }
+.page--split     { grid-template-columns: 2fr 3fr; grid-template-rows: 1fr auto; }
+.page--split .span-all { grid-column: 1 / -1; }
+.page--usage     { grid-template-columns: 2fr 3fr; grid-template-rows: auto 1fr; }
+.page--single    { grid-template-rows: auto; align-content: start; }
 
 /* ---------- UI ---------- */
-.grid { display: grid; gap: 16px; }
-.grid--kpi { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
-.grid--2 { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
+.kpis { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
 
 .card {
   background: var(--surface-1); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 18px 20px;
+  border-radius: var(--radius); padding: 12px 16px;
+  display: flex; flex-direction: column; min-height: 0;
 }
-.card__head { margin-bottom: 12px; }
+.card__head { margin-bottom: 6px; flex-shrink: 0; }
 .card__title { font-size: 15px; }
-.card__desc { color: var(--text-muted); font-size: 13px; }
+.card__desc { color: var(--text-muted); font-size: 12px; }
+.card__body { flex: 1; min-height: 0; overflow: hidden; }
+.chart-box { width: 100%; height: 100%; min-height: 140px; }
 
-.stat__label { color: var(--text-secondary); font-size: 13px; }
-.stat__value { font-size: 28px; font-weight: 700; line-height: 1.2; margin: 4px 0; }
-.stat__hint { color: var(--text-muted); font-size: 12px; }
+.stat { padding: 10px 14px 10px 18px; position: relative; overflow: hidden; }
+.stat::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--brand); }
+.stat__label { color: var(--text-secondary); font-size: 12.5px; }
+.stat__value { font-size: 24px; font-weight: 700; line-height: 1.25; }
+.stat__hint { color: var(--text-muted); font-size: 11.5px; }
 
 .note {
-  background: var(--surface-2); border-left: 3px solid var(--status-warning);
-  padding: 10px 14px; border-radius: 6px; color: var(--text-secondary); font-size: 13px;
+  background: var(--surface-1); border: 1px solid var(--border); border-left: 4px solid var(--status-warning);
+  padding: 8px 14px; border-radius: 10px; color: var(--text-secondary); font-size: 12.5px;
 }
 
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
-th { color: var(--text-secondary); font-weight: 600; font-size: 13px; background: var(--surface-2); }
-td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.summary { display: flex; flex-direction: column; gap: 10px; }
+.summary__row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border); }
+.summary__row span:last-child { font-weight: 600; text-align: right; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { color: var(--text-secondary); font-weight: 600; font-size: 12px; background: var(--surface-2); }
+thead th:first-child { border-top-left-radius: 8px; }
+thead th:last-child { border-top-right-radius: 8px; }
+tfoot th { background: var(--brand-soft); color: var(--text-primary); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .empty { color: var(--text-muted); text-align: center; padding: 24px; }
 
-/* chart tooltip */
+/* tooltip กราฟ */
 .tip {
   background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px;
   padding: 8px 12px; font-size: 13px; box-shadow: 0 4px 16px rgb(0 0 0 / .12);
@@ -144,13 +175,21 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .tip__row { display: flex; align-items: center; gap: 8px; }
 .tip__swatch { width: 10px; height: 10px; border-radius: 3px; }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 860px) {
-  .app { flex-direction: column; }
-  .sidebar { width: 100%; height: auto; position: static; padding: 12px 16px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .sidebar__brand { padding-bottom: 10px; }
-  .nav { flex-direction: row; overflow-x: auto; }
-  .nav a { white-space: nowrap; }
-  .header, .content { padding-left: 16px; padding-right: 16px; }
-  .grid--2 { grid-template-columns: 1fr; }
+/* =========================================================
+   จอเล็ก/มือถือ — วางเรียงลงล่าง (เลื่อนหน้าได้ เพราะใส่ไม่พอในจอเดียว)
+   ========================================================= */
+@media (max-width: 1023px), (max-height: 560px) {
+  .app { height: auto; overflow: visible; }
+  .header { height: auto; flex-wrap: wrap; padding: 10px 16px; gap: 10px; }
+  .nav { order: 3; flex-basis: 100%; flex-wrap: wrap; }
+  .nav a { padding: 4px 12px; }
+  .header__tools { margin-left: auto; }
+  .content { padding: 12px 16px; }
+  .page, .page--overview, .page--split, .page--usage { display: flex; flex-direction: column; height: auto; }
+  .chart-box { height: 300px; }
+  .card__body { overflow: visible; }
+  /* ตารางบีบให้พอดีความกว้างจอ ไม่ต้องเลื่อนซ้าย-ขวา */
+  table { font-size: 12px; table-layout: fixed; }
+  th, td { padding: 5px 4px; overflow-wrap: anywhere; }
+  td.num, th.num { white-space: normal; }
 }

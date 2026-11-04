@@ -7,7 +7,7 @@ interface Props {
 /** การ์ดตัวเลขสรุป (KPI) */
 export function StatCard({ label, value, hint }: Props) {
   return (
-    <div className="card">
+    <div className="card stat">
       <div className="stat__label">{label}</div>
       <div className="stat__value">{value}</div>
       {hint && <div className="stat__hint">{hint}</div>}

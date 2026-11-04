@@ -15,7 +15,6 @@ interface Props {
   categoryKey: string
   series: Series[]
   stacked?: boolean
-  height?: number
 }
 
 function ChartTooltip({ active, payload, label }: TooltipContentProps<any, any>) {
@@ -33,17 +32,19 @@ function ChartTooltip({ active, payload, label }: TooltipContentProps<any, any>)
   )
 }
 
-/** กราฟแท่งแนวนอน — เหมาะกับชื่อหมวดภาษาไทยที่ยาว */
-export function HBarChart({ data, categoryKey, series, stacked, height }: Props) {
-  const h = height ?? Math.max(220, data.length * (stacked ? 40 : 18 * series.length + 20) + 60)
+/** กราฟแท่งแนวนอน — เหมาะกับชื่อหมวดภาษาไทยที่ยาว ยืดเต็มความสูงของกล่องที่ใส่ */
+export function HBarChart({ data, categoryKey, series, stacked }: Props) {
   return (
-    <ResponsiveContainer width="100%" height={h}>
-      <BarChart data={data} layout="vertical" margin={{ left: 8, right: 24 }} barGap={2} barCategoryGap="22%">
+    <div className="chart-box">
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={data} layout="vertical" margin={{ top: 0, left: 0, right: 16, bottom: 0 }} barGap={2} barCategoryGap="22%">
         <CartesianGrid horizontal={false} stroke="var(--grid)" />
-        <XAxis type="number" tickFormatter={fmtNumber} tick={{ fill: 'var(--text-muted)', fontSize: 12 }} axisLine={false} tickLine={false} />
-        <YAxis type="category" dataKey={categoryKey} width={150} tick={{ fill: 'var(--text-secondary)', fontSize: 13 }} axisLine={false} tickLine={false} />
+        <XAxis type="number" tickFormatter={fmtNumber} tick={{ fill: 'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
+        <YAxis type="category" dataKey={categoryKey} width={140} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
         <Tooltip content={ChartTooltip} cursor={{ fill: 'var(--surface-2)' }} />
-        {series.length > 1 && <Legend wrapperStyle={{ fontSize: 13, color: 'var(--text-secondary)' }} />}
+        {series.length > 1 && (
+          <Legend verticalAlign="top" align="right" iconType="circle" iconSize={9} height={26} wrapperStyle={{ fontSize: 12, color: 'var(--text-secondary)' }} />
+        )}
         {series.map((s, i) => (
           <Bar
             key={s.key}
@@ -58,5 +59,6 @@ export function HBarChart({ data, categoryKey, series, stacked, height }: Props)
         ))}
       </BarChart>
     </ResponsiveContainer>
+    </div>
   )
 }

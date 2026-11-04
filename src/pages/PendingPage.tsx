@@ -21,8 +21,8 @@ export function PendingPage() {
   const t = pending.totalRow // แถว "รวม" จากไฟล์รายงาน
 
   return (
-    <>
-      <Card title="คำร้องรอพิจารณา แยกตามหน่วยงาน" description={`รวม ${pending.total} คำร้อง`}>
+    <div className="page page--split" style={{ gridTemplateRows: '1fr' }}>
+      <Card title="คำร้องรอพิจารณา แยกตามหน่วยงาน" description={`รวม ${pending.total} คำร้อง (ในพื้นที่ ${pending.provinceCount} จังหวัด)`}>
         <HBarChart
           data={pending.byAgency}
           categoryKey="agency"
@@ -40,6 +40,6 @@ export function PendingPage() {
           footer={['รวม', fmtNumber(t.awaitingScreening), fmtNumber(t.inProgress), t.areaLabel]}
         />
       </Card>
-    </>
+    </div>
   )
 }

@@ -15,23 +15,21 @@ const columns: Column<AgencyUsage>[] = [
 export function UsagePage() {
   const { usage } = useReport().report
   return (
-    <>
-      <div className="grid grid--kpi">
+    <div className="page page--usage">
+      <div className="kpis span-all" style={{ gridColumn: '1 / -1' }}>
         <StatCard label="ประชาชนเข้าใช้งาน" value={fmtNumber(usage.citizenLogins)} hint={`ครั้ง ผ่าน ${usage.citizenChannels.join(' / ')}`} />
-        <StatCard label="เจ้าหน้าที่เข้าใช้งาน" value={fmtNumber(usage.agencyUsers)} hint={`คน ใน ${usage.agencyProvinceCount} จังหวัด`} />
+        <StatCard label="เจ้าหน้าที่เข้าใช้งาน (เพื่อพิจารณาคำร้อง)" value={fmtNumber(usage.agencyUsers)} hint={`คน ใน ${usage.agencyProvinceCount} จังหวัด`} />
       </div>
-      <div className="grid grid--2">
-        <Card title="ผู้ใช้งานจริง แยกตามหน่วยงาน" description={`ช่วง ${usage.statsPeriod}`}>
-          <HBarChart
-            data={usage.byAgency}
-            categoryKey="agency"
-            series={[{ key: 'active', label: 'ผู้ใช้งานจริง', color: 'var(--series-1)' }]}
-          />
-        </Card>
-        <Card title="สถิติผู้ใช้งานของหน่วยงาน" description={`ช่วง ${usage.statsPeriod}`}>
-          <DataTable columns={columns} rows={usage.byAgency} />
-        </Card>
-      </div>
-    </>
+      <Card title="ผู้ใช้งานจริง แยกตามหน่วยงาน" description={`ช่วง ${usage.statsPeriod}`}>
+        <HBarChart
+          data={usage.byAgency}
+          categoryKey="agency"
+          series={[{ key: 'active', label: 'ผู้ใช้งานจริง', color: 'var(--series-1)' }]}
+        />
+      </Card>
+      <Card title="สถิติผู้ใช้งานของหน่วยงาน" description={`ช่วง ${usage.statsPeriod}`}>
+        <DataTable columns={columns} rows={usage.byAgency} />
+      </Card>
+    </div>
   )
 }

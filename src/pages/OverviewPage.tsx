@@ -11,15 +11,15 @@ export function OverviewPage() {
   const t = disasters.total
 
   return (
-    <>
-      <div className="grid grid--kpi">
+    <div className="page page--overview">
+      <div className="kpis">
         <StatCard label="คำร้องทั้งหมด" value={fmtNumber(disasters.totalRequests)} hint={`ใน ${disasters.provinceCount} จังหวัด`} />
         <StatCard label="คำร้องที่ช่วยเหลือ" value={fmtNumber(t.assisted)} hint={`ช่วยเหลือ ${t.assisted} ครั้ง`} />
-        <StatCard label="ครัวเรือนได้รับผลกระทบ" value={fmtNumber(t.affectedHouseholds)} />
+        <StatCard label="ครัวเรือนได้รับผลกระทบ" value={fmtNumber(t.affectedHouseholds)} hint={t.type} />
         <StatCard label="ครัวเรือนได้รับการช่วยเหลือ" value={fmtNumber(t.assistedHouseholds)} hint={t.assistedPercent} />
         <StatCard label="คำร้องรอพิจารณา" value={fmtNumber(pending.total)} hint={`ใน ${pending.provinceCount} จังหวัด`} />
-        <StatCard label="ประชาชนเข้าใช้งาน" value={fmtNumber(usage.citizenLogins)} hint={`ครั้ง ผ่าน ${usage.citizenChannels.join(' / ')}`} />
-        <StatCard label="เจ้าหน้าที่เข้าใช้งาน" value={fmtNumber(usage.agencyUsers)} hint={`คน ใน ${usage.agencyProvinceCount} จังหวัด`} />
+        <StatCard label="ประชาชนเข้าใช้งาน" value={fmtNumber(usage.citizenLogins)} hint={`ครั้ง · ${usage.citizenChannels.join(' / ')}`} />
+        <StatCard label="เจ้าหน้าที่เข้าใช้งาน" value={fmtNumber(usage.agencyUsers)} hint={`คน · ${usage.agencyProvinceCount} จังหวัด`} />
       </div>
 
       <Card title="ครัวเรือนได้รับผลกระทบ เทียบกับได้รับการช่วยเหลือ" description="แยกตามประเภทภัย">
@@ -32,7 +32,19 @@ export function OverviewPage() {
           ]}
         />
       </Card>
-      <div className="note">หมายเหตุ: {disasters.note}</div>
-    </>
+
+      <Card title={`สรุป${report.periodLabel}`} description={report.title}>
+        <div className="summary">
+          <div className="summary__row"><span>แจ้งภัย / ขอความช่วยเหลือ</span><span>{t.reports} / {t.helpRequests} คำร้อง</span></div>
+          <div className="summary__row"><span>ประเภทภัย</span><span>{t.type.replace(/^รวม\s*/, '')}</span></div>
+          <div className="summary__row"><span>พื้นที่ได้รับผลกระทบ</span><span>{t.provinceLabel.replace(/^รวม\s*/, '')}</span></div>
+          <div className="summary__row">
+            <span>รอพิจารณา (รอคัดกรอง / กำลังดำเนินการ)</span>
+            <span>{pending.totalRow.awaitingScreening} / {pending.totalRow.inProgress}</span>
+          </div>
+          <div className="note">หมายเหตุ: {disasters.note}</div>
+        </div>
+      </Card>
+    </div>
   )
 }

@@ -12,8 +12,10 @@ const columns: Column<UsageIssue>[] = [
 export function IssuesPage() {
   const { report } = useReport()
   return (
-    <Card title={`สรุปภาพรวมปัญหาการใช้งานเดือน${report.periodLabel}`}>
-      <DataTable columns={columns} rows={report.issues} emptyText="ไม่มีปัญหาการใช้งานในเดือนนี้" />
-    </Card>
+    <div className="page page--single">
+      <Card title={`สรุปภาพรวมปัญหาการใช้งานเดือน${report.periodLabel}`}>
+        <DataTable columns={columns} rows={report.issues} emptyText="ไม่มีปัญหาการใช้งานในเดือนนี้" />
+      </Card>
+    </div>
   )
 }

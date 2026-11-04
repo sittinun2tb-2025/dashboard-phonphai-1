@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { routes } from '@/routes'
 import { listReports } from '@/services/reportService'
 import { fmtThaiDate } from '@/utils/format'
 import { useReport } from './ReportContext'
@@ -13,7 +15,8 @@ function readTheme(): Theme | null {
   }
 }
 
-export function Header({ title }: { title: string }) {
+/** แถบบนสุด: โลโก้ + เมนูหน้า + เลือกเดือน + สลับธีม */
+export function Header() {
   const { report, reportId, setReportId } = useReport()
   const [theme, setTheme] = useState<Theme | null>(readTheme)
 
@@ -26,13 +29,26 @@ export function Header({ title }: { title: string }) {
 
   return (
     <header className="header">
-      <div>
-        <h1 className="header__title">{title}</h1>
-        <div className="header__sub">
-          {report.title} · ข้อมูล ณ {fmtThaiDate(report.asOf)}
+      <div className="brand">
+        <img className="brand__mark" src="/favicon.svg" alt="" />
+        <div>
+          <div className="brand__name">พ้นภัย</div>
+          <div className="brand__sub">รายงานสรุปการใช้งาน</div>
         </div>
       </div>
+
+      <nav className="nav">
+        {routes.map((r) => (
+          <NavLink key={r.path} to={r.path} end={r.path === '/'}>
+            {r.label}
+          </NavLink>
+        ))}
+      </nav>
+
       <div className="header__tools">
+        <div className="header__asof">
+          ข้อมูล ณ<br />{fmtThaiDate(report.asOf)}
+        </div>
         <select value={reportId} onChange={(e) => setReportId(e.target.value)} aria-label="เลือกเดือนรายงาน">
           {listReports().map((r) => (
             <option key={r.id} value={r.id}>{r.periodLabel}</option>
