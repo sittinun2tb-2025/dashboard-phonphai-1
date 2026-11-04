@@ -33,7 +33,7 @@ export function DataTable<T>({ columns, rows, footer, emptyText = 'ไม่ม�
             rows.map((row, i) => (
               <tr key={i}>
                 {columns.map((c) => (
-                  <td key={c.key} className={c.numeric ? 'num' : undefined}>{c.render(row)}</td>
+                  <td key={c.key} className={c.numeric ? 'num' : undefined} data-label={c.header}>{c.render(row)}</td>
                 ))}
               </tr>
             ))
@@ -43,7 +43,7 @@ export function DataTable<T>({ columns, rows, footer, emptyText = 'ไม่ม�
           <tfoot>
             <tr>
               {footer.map((cell, i) => (
-                <th key={i} className={columns[i]?.numeric ? 'num' : undefined}>{cell}</th>
+                <th key={i} className={columns[i]?.numeric ? 'num' : undefined} data-label={columns[i]?.header}>{cell}</th>
               ))}
             </tr>
           </tfoot>

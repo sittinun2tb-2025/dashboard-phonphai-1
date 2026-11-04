@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react'
 import { geoArea, geoMercator, geoPath } from 'd3-geo'
 import type { Feature, FeatureCollection, Geometry, Position } from 'geojson'
 import provincesGeo from '@/data/geo/thailand-provinces.json'
@@ -41,6 +41,9 @@ export function ProvinceMap({ highlights }: Props) {
   useEffect(() => {
     const el = boxRef.current
     if (!el) return
+    // วัดขนาดทันทีตอนแสดงครั้งแรก (ไม่ต้องรอ ResizeObserver ซึ่งบางเบราว์เซอร์มือถือเรียกช้า)
+    const first = el.getBoundingClientRect()
+    setSize({ w: Math.floor(first.width), h: Math.floor(first.height) })
     const ro = new ResizeObserver(([e]) => {
       const { width, height } = e.contentRect
       setSize({ w: Math.floor(width), h: Math.floor(height) })
@@ -64,19 +67,30 @@ export function ProvinceMap({ highlights }: Props) {
 
   return (
     <div className="map">
-      <div className="map__canvas" ref={boxRef} onMouseLeave={() => setHover(null)}>
+      <div
+        className="map__canvas"
+        ref={boxRef}
+        // เมาส์ออกนอกแผนที่ → ซ่อน · บนมือถือ แตะที่ว่าง (ไม่ใช่จังหวัด) → ซ่อน
+        onPointerLeave={(e) => e.pointerType === 'mouse' && setHover(null)}
+        onPointerDown={(e) => (e.target as Element).tagName !== 'path' && setHover(null)}
+      >
         <svg width={size.w} height={size.h} role="img" aria-label="แผนที่จังหวัดที่ได้รับผลกระทบ">
           {sorted.map((p) => {
             const types = highlights.get(p.name)
+            const show = (e: PointerEvent) => {
+              const r = boxRef.current!.getBoundingClientRect()
+              setHover({ name: p.name, types: types ?? [], x: e.clientX - r.left, y: e.clientY - r.top })
+            }
             return (
               <path
                 key={p.name}
                 d={p.d}
-                className={types ? 'map__prov map__prov--hit' : 'map__prov'}
-                onMouseMove={(e) => {
-                  const r = boxRef.current!.getBoundingClientRect()
-                  setHover({ name: p.name, types: types ?? [], x: e.clientX - r.left, y: e.clientY - r.top })
-                }}
+                className={
+                  (types ? 'map__prov map__prov--hit' : 'map__prov') +
+                  (hover?.name === p.name ? ' map__prov--active' : '')
+                }
+                onPointerMove={(e) => e.pointerType === 'mouse' && show(e)}
+                onPointerDown={show}
               >
                 <title>{types ? `${p.name}: ${types.join(', ')}` : p.name}</title>
               </path>
@@ -87,8 +101,8 @@ export function ProvinceMap({ highlights }: Props) {
           <div
             className="tip map__tip"
             style={{
-              left: Math.min(hover.x + 12, size.w - 180),
-              top: Math.max(hover.y - 12, 0),
+              left: Math.max(0, Math.min(hover.x + 12, size.w - 190)),
+              top: Math.max(0, Math.min(hover.y - 12, size.h - 110)),
             }}
           >
             <strong>จ.{hover.name}</strong>

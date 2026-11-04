@@ -4,6 +4,7 @@ import { routes } from '@/routes'
 import { listReports } from '@/services/reportService'
 import { fmtThaiDate } from '@/utils/format'
 import { useReport } from './ReportContext'
+import { ModeSwitch } from './ModeSwitch'
 
 type Theme = 'light' | 'dark'
 
@@ -34,13 +35,16 @@ export function Header() {
         <div>
           <div className="brand__name">พ้นภัย</div>
           <div className="brand__sub">รายงานสรุปการใช้งาน</div>
+          <div className="brand__asof">ข้อมูล ณ {fmtThaiDate(report.asOf)}</div>
         </div>
       </div>
 
-      <nav className="nav">
+      {/* จอคอม: เมนูบนแถบบน · มือถือ: แถบเมนูติดด้านล่าง (ดู CSS) */}
+      <nav className="nav" aria-label="เมนูหลัก">
         {routes.map((r) => (
           <NavLink key={r.path} to={r.path} end={r.path === '/'}>
-            {r.label}
+            <span className="nav__icon">{r.icon}</span>
+            <span className="nav__label">{r.label}</span>
           </NavLink>
         ))}
       </nav>
@@ -54,6 +58,7 @@ export function Header() {
             <option key={r.id} value={r.id}>{r.periodLabel}</option>
           ))}
         </select>
+        <ModeSwitch />
         <button onClick={() => setTheme(isDark ? 'light' : 'dark')} aria-label="สลับธีม">
           {isDark ? '☀️' : '🌙'}
         </button>

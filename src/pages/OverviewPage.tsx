@@ -39,7 +39,7 @@ export function OverviewPage() {
         />
       </Card>
 
-      <Card title="แผนที่พื้นที่ได้รับผลกระทบ" description="จังหวัดที่เกิดภัยตามรายงาน · ชี้เพื่อดูประเภทภัย">
+      <Card title="แผนที่พื้นที่ได้รับผลกระทบ" description="จังหวัดที่เกิดภัยตามรายงาน · ชี้หรือแตะเพื่อดูประเภทภัย">
         <ProvinceMap highlights={affected} />
       </Card>
 

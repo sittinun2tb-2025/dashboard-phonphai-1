@@ -66,7 +66,12 @@
 
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
-html { scrollbar-width: none; }
+html {
+  scrollbar-width: none;
+  -webkit-text-size-adjust: 100%;   /* กัน iOS ขยายตัวอักษรเองตอนหมุนจอ */
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
 html::-webkit-scrollbar { display: none; }
 body {
   margin: 0;
@@ -106,12 +111,14 @@ select, button {
 .brand__mark { width: 30px; height: 30px; }
 .brand__name { font-weight: 700; color: var(--brand); font-size: 19.8px; line-height: 1.1; }
 .brand__sub { font-size: 12.1px; color: var(--text-muted); }
+.brand__asof { display: none; font-size: 12.1px; color: var(--text-muted); }
 
 .nav { display: flex; gap: 4px; flex: 1; min-width: 0; }
 .nav a {
   padding: 6px 14px; border-radius: 999px; color: var(--text-secondary); white-space: nowrap;
 }
-.nav a:hover { background: var(--surface-2); }
+.nav__icon { display: none; }
+@media (hover: hover) { .nav a:hover { background: var(--surface-2); } }
 .nav a.active { background: var(--brand); color: var(--brand-ink); }
 
 .header__tools { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
@@ -173,9 +180,12 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-sp
 .map__canvas { position: relative; flex: 1; min-height: 0; }
 .map__canvas svg { display: block; }
 .map__prov { fill: var(--surface-2); stroke: var(--border); stroke-width: 0.6; transition: fill .15s; }
-.map__prov:hover { fill: var(--grid); }
 .map__prov--hit { fill: var(--series-1); stroke: var(--surface-1); stroke-width: 1; }
-.map__prov--hit:hover { fill: var(--brand); opacity: .8; }
+.map__prov--active { opacity: .75; }
+@media (hover: hover) {
+  .map__prov:hover { fill: var(--grid); }
+  .map__prov--hit:hover { fill: var(--brand); opacity: .8; }
+}
 .map__tip { position: absolute; pointer-events: none; z-index: 2; min-width: 160px; }
 .map__legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13.2px; color: var(--text-secondary); flex-shrink: 0; }
 .map__key { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; background: var(--surface-2); border: 1px solid var(--border); }
@@ -192,21 +202,123 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-sp
 .tip__swatch { width: 10px; height: 10px; border-radius: 3px; }
 
 /* =========================================================
-   จอเล็ก/มือถือ — วางเรียงลงล่าง (เลื่อนหน้าได้ เพราะใส่ไม่พอในจอเดียว)
+   แท็บเล็ต/มือถือ (iPhone, Android) — เรียงลงล่าง เลื่อนขึ้น-ลงได้
+   แถบบนติดด้านบน · เมนูเป็นแถบแท็บติดด้านล่างแบบแอป
+   รองรับรอยบาก/แถบโฮมของ iPhone ด้วย env(safe-area-inset-*)
    ========================================================= */
-@media (max-width: 1023px), (max-height: 560px) {
-  .app { height: auto; overflow: visible; }
-  .header { height: auto; flex-wrap: wrap; padding: 10px 16px; gap: 10px; }
-  .nav { order: 3; flex-basis: 100%; flex-wrap: wrap; }
-  .nav a { padding: 4px 12px; }
-  .header__tools { margin-left: auto; }
-  .content { padding: 12px 16px; }
-  .page, .page--overview, .page--split, .page--usage { display: flex; flex-direction: column; height: auto; }
-  .chart-box { height: 300px; }
-  .map__canvas { flex: none; height: 520px; }
-  .card__body { overflow: visible; }
-  /* ตารางบีบให้พอดีความกว้างจอ ไม่ต้องเลื่อนซ้าย-ขวา */
-  table { font-size: 13.2px; table-layout: fixed; }
-  th, td { padding: 5px 4px; overflow-wrap: anywhere; }
-  td.num, th.num { white-space: normal; }
+  html.is-mobile { --tabbar-h: 60px; --pad-x: 14px; }
+  html.is-mobile .app { height: auto; overflow: visible; }
+
+  html.is-mobile .header {
+    position: sticky; top: 0; z-index: 10;
+    height: auto; gap: 10px; justify-content: space-between;
+    padding: calc(8px + env(safe-area-inset-top)) calc(var(--pad-x) + env(safe-area-inset-right))
+             8px calc(var(--pad-x) + env(safe-area-inset-left));
+  }
+  html.is-mobile .brand__sub, html.is-mobile .header__asof { display: none; }
+  html.is-mobile .brand__asof { display: block; }
+
+  /* แถบเมนูด้านล่าง */
+  html.is-mobile .nav {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    background: var(--surface-1);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 16px rgb(0 0 0 / .06);
+    padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  html.is-mobile .nav a {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    min-height: var(--tabbar-h); padding: 6px 2px; border-radius: 0;
+    font-size: 12.5px; color: var(--text-muted);
+  }
+  html.is-mobile .nav__icon { display: flex; padding: 2px 16px; border-radius: 999px; }
+  html.is-mobile .nav a.active { background: none; color: var(--brand); font-weight: 600; }
+  html.is-mobile .nav a.active .nav__icon { background: var(--brand-soft); }
+
+  html.is-mobile .content {
+    padding: 12px calc(var(--pad-x) + env(safe-area-inset-right))
+             calc(var(--tabbar-h) + 16px + env(safe-area-inset-bottom)) calc(var(--pad-x) + env(safe-area-inset-left));
+  }
+  html.is-mobile .page, html.is-mobile .page--overview, html.is-mobile .page--split, html.is-mobile .page--usage { display: flex; flex-direction: column; height: auto; }
+  html.is-mobile .card__body { overflow: visible; }
+  html.is-mobile .chart-box { height: 300px; }
+  html.is-mobile .map__canvas { flex: none; height: 480px; }
+
+  /* ขนาดแตะได้ ≥ 40px และ select 16px กัน iOS ซูมหน้าเองตอนแตะ */
+  html.is-mobile select { font-size: 16px; min-height: 40px; padding: 4px 12px; }
+  html.is-mobile .header button { min-width: 40px; min-height: 40px; padding: 0; }
+
+
+/* ---------- มือถือแนวตั้ง ---------- */
+  html.is-phone { --gap: 10px; }
+  html.is-phone .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html.is-phone .kpis > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  html.is-phone .stat { padding: 10px 12px 10px 16px; }
+  html.is-phone .stat__value { font-size: 24px; }
+  html.is-phone .card { padding: 12px 14px; }
+  html.is-phone .chart-box { height: 280px; }
+  html.is-phone .map__canvas { height: 440px; }
+
+  /* ตาราง → การ์ดทีละแถว (ไม่ต้องเลื่อนซ้าย-ขวา) */
+  html.is-phone table, html.is-phone tbody, html.is-phone tfoot, html.is-phone tr, html.is-phone td, html.is-phone tfoot th { display: block; width: 100%; }
+  html.is-phone thead { display: none; }
+  html.is-phone tbody tr, html.is-phone tfoot tr {
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 4px 12px; margin-bottom: 8px;
+  }
+  html.is-phone tfoot tr { background: var(--brand-soft); }
+  html.is-phone td, html.is-phone tfoot th {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 6px 0; border-bottom: 1px dashed var(--border);
+    text-align: right; white-space: normal; background: none;
+    font-size: 14.3px;
+  }
+  html.is-phone td::before, html.is-phone tfoot th::before {
+    content: attr(data-label);
+    color: var(--text-secondary); font-weight: 600; font-size: 13.2px;
+    text-align: left; flex: 0 0 42%;
+  }
+  /* ช่องแรกของแถว = หัวการ์ด (ไม่ต้องแสดงชื่อคอลัมน์) */
+  html.is-phone tr > :first-child { justify-content: flex-start; text-align: left; font-weight: 600; font-size: 15.4px; color: var(--text-primary); }
+  html.is-phone tr > :first-child::before { content: none; }
+  html.is-phone tr > :last-child { border-bottom: 0; }
+  html.is-phone td.empty { display: block; text-align: center; border: 0; }
+  html.is-phone td.empty::before { content: none; }
+
+  /* แถบบนบนจอแคบ: ให้ส่วนโลโก้หดได้ ไม่ดันปุ่มล้นจอ */
+  html.is-phone .header { gap: 8px; }
+  html.is-phone .brand { flex-shrink: 1; min-width: 0; gap: 8px; }
+  html.is-phone .brand > div { min-width: 0; }
+  html.is-phone .brand__asof { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+
+/* ---------- จอแคบมาก (Android ขนาดเล็ก ≤ 380px) ---------- */
+@media (max-width: 380px) {
+  html.is-phone { --pad-x: 10px; }
+  html.is-phone .brand__mark { width: 26px; height: 26px; }
+  html.is-phone .brand__asof { font-size: 11px; }
+  html.is-phone select { padding: 4px 8px; }
+  html.is-phone .nav__icon { padding: 2px 12px; }
 }
+
+/* ---------- โหมด Mobile บนจอคอม: แสดงเป็นกรอบกว้างเท่าโทรศัพท์ตรงกลางจอ ---------- */
+html.force-mobile .app {
+  max-width: 430px; min-height: 100vh; margin: 0 auto;
+  background: var(--bg);
+  box-shadow: 0 0 0 1px var(--border), 0 12px 48px rgb(0 0 0 / .12);
+}
+html.force-mobile .nav { left: 50%; right: auto; width: min(100%, 430px); transform: translateX(-50%); }
+
+/* ---------- ปุ่มสลับ Web / Mobile ---------- */
+.mode-switch {
+  display: inline-flex; padding: 2px; gap: 2px;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--surface-2);
+}
+.mode-switch button {
+  display: inline-flex; align-items: center; gap: 4px;
+  border: 0; background: none; padding: 3px 10px; color: var(--text-muted); font-size: 13.2px;
+}
+.mode-switch button[aria-pressed='true'] { background: var(--surface-1); color: var(--brand); font-weight: 600; box-shadow: 0 1px 3px rgb(0 0 0 / .12); }
+html.is-mobile .mode-switch button { min-width: 36px; min-height: 36px; padding: 0 8px; justify-content: center; }
+html.is-mobile .mode-switch__label { display: none; }

@@ -2,7 +2,24 @@
 <html lang="th">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <script>
+      // โหมด Web บนมือถือ: ตั้ง viewport กว้าง 1280px ก่อนเบราว์เซอร์จัดหน้า (ให้ซูมพอดีจอ) — ดู src/utils/layout.ts
+      try {
+        var d = Math.min(screen.width, screen.height)
+        if (localStorage.getItem('layout') === 'web' && matchMedia('(pointer: coarse)').matches && d < 1024) {
+          document.querySelector('meta[name=viewport]').setAttribute('content', 'width=1280, viewport-fit=cover')
+        }
+      } catch (e) {}
+    </script>
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1e2228" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="พ้นภัย" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Pridi:wght@400;500;600;700&display=swap" rel="stylesheet" />
