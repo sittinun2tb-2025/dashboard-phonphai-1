@@ -39,11 +39,11 @@ export function HBarChart({ data, categoryKey, series, stacked }: Props) {
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} layout="vertical" margin={{ top: 0, left: 0, right: 16, bottom: 0 }} barGap={2} barCategoryGap="22%">
         <CartesianGrid horizontal={false} stroke="var(--grid)" />
-        <XAxis type="number" tickFormatter={fmtNumber} tick={{ fill: 'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
-        <YAxis type="category" dataKey={categoryKey} width={140} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+        <XAxis type="number" tickFormatter={fmtNumber} tick={{ fill: 'var(--text-muted)', fontSize: 12.1 }} axisLine={false} tickLine={false} />
+        <YAxis type="category" dataKey={categoryKey} width={154} tick={{ fill: 'var(--text-secondary)', fontSize: 13.2 }} axisLine={false} tickLine={false} />
         <Tooltip content={ChartTooltip} cursor={{ fill: 'var(--surface-2)' }} />
         {series.length > 1 && (
-          <Legend verticalAlign="top" align="right" iconType="circle" iconSize={9} height={26} wrapperStyle={{ fontSize: 12, color: 'var(--text-secondary)' }} />
+          <Legend verticalAlign="top" align="right" iconType="circle" iconSize={10} height={28} wrapperStyle={{ fontSize: 13.2, color: 'var(--text-secondary)' }} />
         )}
         {series.map((s, i) => (
           <Bar

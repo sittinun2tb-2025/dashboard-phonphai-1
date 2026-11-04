@@ -22,7 +22,7 @@ export function DisastersPage() {
   const t = disasters.total // แถว "รวม" จากไฟล์รายงาน
 
   return (
-    <div className="page page--split">
+    <div className="page page--split page--wide-table">
       <Card
         title="จำนวนคำร้องแยกตามประเภทภัย"
         description={`รวม ${disasters.totalRequests} คำร้อง ใน ${disasters.provinceCount} จังหวัด`}
