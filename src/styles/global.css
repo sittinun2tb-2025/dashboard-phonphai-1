@@ -60,6 +60,10 @@
 
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
+
+/* ซ่อนแถบ scroll ด้านขวา (ยังเลื่อนหน้าด้วยล้อเมาส์/ทัชแพด/นิ้วได้ตามปกติ) */
+html { scrollbar-width: none; }               /* Firefox, Chrome 121+ */
+html::-webkit-scrollbar { display: none; }    /* Safari, Chrome รุ่นเก่า */
 body {
   margin: 0;
   background: var(--bg);
